@@ -8,16 +8,12 @@ import { useEffect, useState } from 'react';
 import Attributes from "./Element";
 import { v4 as uuidV4 } from 'uuid';
 
+
+
 function App() {
 
   const dispatch = useDispatch();
   const attributes = useSelector((state) =>state.addAtttribute);
-  const [dType, setDType] = useState({index: -1, type: "string"});
-  const [count, setCount] = useState(0);
-  useEffect(()=>{
-    dispatch(dataType(dType))
-    setDType({index: -1, type: "string"})
-}, [dType])
 
   return (
     <div className="App">
@@ -31,7 +27,6 @@ function App() {
           </div>
           <div>
             <FontAwesomeIcon icon={faPlusSquare} onClick={()=>{
-                // setCount(count+1);
                  dispatch(add({
                     id: uuidV4(),
                     type: "string",
@@ -43,8 +38,7 @@ function App() {
           </div>
         </div>
         <div>
-            <Attributes attributes={attributes} count={count} setCount={setCount}/>
-            
+            <Attributes attributes={attributes} />
         </div>
       
     </div>

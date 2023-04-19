@@ -33,25 +33,40 @@ const addAtttribute = (state=[], action)=>{
         {
             if(item[i].id===c_id)
             {
-                item[i].type="object";
+                item[i].type=c_type;
                 return;
             }
             if(item[i].nested.length>0)
             {
-                changeToObject(item[i].nested, c_id)
+                changeToObject(item[i].nested, c_id, c_type)
             }
         }
         return;
     }
     
-    
+    function deleteAttribute(item, c_id) {
+        for(let i=0;i<item.length;i++)
+        {
+            if(item[i].id===c_id)
+            {
+                item.splice(i,1);
+                return;
+            }
+            if(item[i].nested.length>0)
+                deleteAttribute(item[i].nested, c_id);
+        }
+        return;
+    }
+
     if(action.type==="Add") {
-        console.log([...state, action.payload])
+        // console.log([...state, action.payload])
         return [...state, action.payload]
     }
     
     else if (action.type==="Remove") {
-        return state.filter((todo,index)=>index!==action.payload)
+        let temp=[...state];
+        deleteAttribute(temp, action.payload)
+        return temp;
     }
 
     else if(action.type==="Checkbox")
@@ -61,16 +76,15 @@ const addAtttribute = (state=[], action)=>{
 
     else if(action.type==="DataType")
     {
-        changeToObject(state, action.payload.index, action.payload.type);
-        return state;
+        let temp=[...state];
+        changeToObject(temp, action.payload.index, action.payload.type);
+        return temp;
     }
 
     else if(action.type === "NestedObject") {
-        console.log("exp", action.payload.ParentId, action.payload.count)
-        
-        solve(state, action.payload.ParentId, action.payload.count, state);
-        // console.log("temp",temp);
-        return state;
+        let temp=[...state];
+        solve(temp, action.payload.ParentId, action.payload.count, state);
+        return temp;
 
     }
 
