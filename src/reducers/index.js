@@ -119,6 +119,7 @@ const addAtttribute = (state=[], action)=>{
     else if(action.type === "NestedObject") {
         let temp=[...state];
         solve(temp, action.payload.ParentId, action.payload.count, state);
+        console.log(temp);
         return temp;
     }
     else if(action.type==="EditName") {
