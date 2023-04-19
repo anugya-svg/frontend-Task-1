@@ -16,31 +16,32 @@ function App() {
   const attributes = useSelector((state) =>state.addAtttribute);
 
   return (
-    <div className="App">
+    <div className='App'>
       <div className='header'>
         <img src={Logo} width="400"/>
       </div>
       <div className='content'>
         <div className="schema-box">
-          <div className="task">
+          <div className="task" style={{margin:"15px", fontSize:"1.5rem",fontWeight:"bold"}}>
             Lets Create Schema
-          </div>
-          <div>
-            <FontAwesomeIcon icon={faPlusSquare} onClick={()=>{
+            <FontAwesomeIcon icon={faPlusSquare} style={{marginLeft:"140px"}} onClick={()=>{
                  dispatch(add({
                     id: uuidV4(),
                     type: "string",
                     required: false,
                     delete: false,
-                    nested:[]
+                    nested:[],
+                    placeholder: "addName"
                 }))
-            }}/>          
+            }}/>  
           </div>
+          
         </div>
-        <div>
+        <div >
+        <div style={{backgroundColor:"rgb(29,27,45)", borderRadius:"7px", padding:"10px"}}>
             <Attributes attributes={attributes} />
         </div>
-      
+        </div>
     </div>
     </div>
   );

@@ -9,7 +9,8 @@ const addAtttribute = (state=[], action)=>{
             type: "string",
             required: false,
             delete: false,
-            nested:[]
+            nested:[],
+            placeholder: "addName"
         }
         
         for(let i=0;i<item.length; i++)
@@ -34,6 +35,10 @@ const addAtttribute = (state=[], action)=>{
             if(item[i].id===c_id)
             {
                 item[i].type=c_type;
+                if(c_type!=="object")
+                {
+                    item[i].nested=[];
+                }
                 return;
             }
             if(item[i].nested.length>0)
@@ -58,6 +63,34 @@ const addAtttribute = (state=[], action)=>{
         return;
     }
 
+    function editName(item, c_id, c_name) {
+        for(let i=0;i<item.length;i++)
+        {
+            if(item[i].id===c_id)
+            {
+                item[i].placeholder=c_name;
+                return;
+            }
+            if(item[i].nested.length>0)
+                editName(item[i].nested, c_id, c_name);
+        }
+        return;
+    }
+
+    function changeRequired(item, c_id, c_req) {
+        for(let i=0;i<item.length;i++)
+        {
+            if(item[i].id===c_id)
+            {
+                item[i].required=c_req;
+                return;
+            }
+            if(item[i].nested.length>0)
+                editName(item[i].nested, c_id);
+        }
+        return;
+    }
+
     if(action.type==="Add") {
         // console.log([...state, action.payload])
         return [...state, action.payload]
@@ -69,9 +102,11 @@ const addAtttribute = (state=[], action)=>{
         return temp;
     }
 
-    else if(action.type==="Checkbox")
+    else if(action.type==="Required")
     {   
-        return state.map((todo,index)=>index===action.payload?{...todo,checked:!todo.checked}:todo)
+        let temp = [...state];
+        changeRequired(temp, action.payload.index, !action.payload.c_req);
+        return temp;
     }
 
     else if(action.type==="DataType")
@@ -85,7 +120,11 @@ const addAtttribute = (state=[], action)=>{
         let temp=[...state];
         solve(temp, action.payload.ParentId, action.payload.count, state);
         return temp;
-
+    }
+    else if(action.type==="EditName") {
+        let temp=[...state];
+        editName(temp, action.payload.index, action.payload.c_name);
+        return temp;
     }
 
     return state;

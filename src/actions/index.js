@@ -10,9 +10,9 @@ const remove=(index)=>{
         payload:index
     }
 }
-const checkbox=(index)=>{
+const required=(index)=>{
     return{
-        type:"Checkbox",
+        type:"Required",
         payload:index
     }
 }
@@ -30,4 +30,11 @@ const nestedObject = (index)=>{
         payload: index
     }
 }
-export {add,remove,checkbox, dataType, nestedObject};
+
+const editName =(item)=>{
+    return {
+        type:"EditName",
+        payload:item
+    }
+}
+export {add, remove, required, dataType, nestedObject, editName};

@@ -12,6 +12,22 @@ body {
 
 .App {
   color: white;
+  display:flex;
+   height:100vh; 
+   justify-content:center;
+   align-items:center;
+   flex-direction:column;
+}
+
+.input {
+  border-radius: 10px;
+  padding:7px;
+  margin: 5px;
+}
+
+.icon {
+  height: 25px;
+  width: 25px;
 }
 
 .header {
